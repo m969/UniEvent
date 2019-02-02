@@ -27,4 +27,14 @@ public static class uniFrameExternal {
     {
         return EventAggregator.GetEvent<TEvent>();
     }
+    
+    public static void Pubish<TEvent>(TEvent evt)
+    {
+        EventAggregator.Publish<TEvent>(evt);
+    }
+
+    public static IObservable<TEvent> OnEvent<TEvent>()
+    {
+        return EventAggregator.GetEvent<TEvent>();
+    }
 }
