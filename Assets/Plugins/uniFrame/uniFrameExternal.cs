@@ -18,7 +18,7 @@ public static class uniFrameExternal {
     private static EventAggregator _eventAggregator;
 
 
-    public static void Pubish<TEvent>(this MonoBehaviour monoBehaviour, TEvent evt)
+    public static void Publish<TEvent>(this MonoBehaviour monoBehaviour, TEvent evt)
     {
         EventAggregator.Publish<TEvent>(evt);
     }
@@ -28,7 +28,7 @@ public static class uniFrameExternal {
         return EventAggregator.GetEvent<TEvent>();
     }
     
-    public static void Pubish<TEvent>(TEvent evt)
+    public static void Publish<TEvent>(TEvent evt)
     {
         EventAggregator.Publish<TEvent>(evt);
     }
