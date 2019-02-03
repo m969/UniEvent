@@ -11,7 +11,7 @@ public class uniFrameTest : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         this.OnEvent<uniFrameTest>().ObserveOnMainThread().Subscribe(OnUni);
-        this.Pubish(this);
+        this.Publish(this);
         p.Where(x => { return x.HasValue; }).Subscribe(x => { print("p=" + x); });
         p.Value = 1;
     }
