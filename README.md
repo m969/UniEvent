@@ -4,6 +4,7 @@
 
 >使用方式：
 在使用之前需要先引入UniRx命名空间。
+
 >订阅事件：
 ```
 this.OnEvent<TEvent>().Subscribe(x => { });
