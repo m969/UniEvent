@@ -8,16 +8,16 @@ namespace uniFrame.Attributes
     /// <summary>
     /// Used by the injection container to determine if a property or field should be injected.
     /// </summary>
-    public class uniFrameIdentifier : Attribute
+    public class UniEventIdentifier : Attribute
     {
-        public uniFrameIdentifier(string identifier)
+        public UniEventIdentifier(string identifier)
         {
             Identifier = identifier;
         }
 
         public string Identifier { get; set; }
 
-        public uniFrameIdentifier()
+        public UniEventIdentifier()
         {
         }
     }
