@@ -3,49 +3,81 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class TestEvent
+public enum HeroEventType
 {
+    None,
+    Spawn,
+    Dead
+}
+
+public class HeroEvent
+{
+    public HeroEventType type;
+    public string eventType;
     public string testStr;
 }
 
-public class TestCommand
+public enum HeroCmdType
 {
-    public string testStr;
-    public string Result;
+    None,
+    Attack,
+    BeAttacked
+}
+
+public class HeroCommand : ICommand<GameObject>
+{
+    public HeroCmdType type;
+    public GameObject Result { get;set; }
 }
 
 public class UniEventTest : MonoBehaviour {
-    public ReactiveProperty<int?> p = new ReactiveProperty<int?>();
+    //可订阅属性
+    public ReactiveProperty<int> p = new ReactiveProperty<int>();
 
 
 	void Start () {
-        p.Where(x => { return x.HasValue; }).Subscribe(x => { print("p=" + x); });
-        this.OnEvent<TestEvent>().Subscribe(OnTestEvent);
-        this.OnEvent<TestEvent>().Where((evt)=> { return evt.testStr == "test"; }).Subscribe(OnTestEvent2);
-        this.OnEvent<TestCommand>().Subscribe(OnTestCommand);
+        //订阅属性
+        p.Subscribe(x => { print("p=" + x); });
+        //订阅Hero事件
+        this.OnEvent<HeroEvent>().Subscribe(OnHeroEvent);
+        //筛选Hero出生事件
+        this.OnEvent<HeroEvent>().Where(e => e.type == HeroEventType.Spawn).Subscribe(OnHeroSpawn);
+        //筛选Hero死亡事件
+        this.OnEvent<HeroEvent>().Where(e => e.type == HeroEventType.Dead).Subscribe(OnHeroDead);
+        //订阅Hero命令
+        this.OnEvent<HeroCommand>().Subscribe(OnHeroCommand);
 
+        //改变属性
         p.Value = 1;
-        this.Publish(new TestEvent());
-        this.Publish(new TestEvent() { testStr = "test" });
-        var result = this.Execute(new TestCommand());
+        //发布Hero事件
+        this.Publish(new HeroEvent());
+        //发布Hero出生事件
+        this.Publish(new HeroEvent() { type = HeroEventType.Spawn });
+        //发布Hero死亡事件
+        this.Publish(new HeroEvent() { type = HeroEventType.Dead });
+        //发布Hero命令并携带返回值
+        var result = this.Execute<HeroCommand, GameObject>(new HeroCommand() { type = HeroCmdType.Attack });
         print(result);
-        result = this.Execute<TestCommand, string>(new TestCommand());
-        print(result);
     }
 
-    private void OnTestEvent(TestEvent evt)
+    private void OnHeroEvent(HeroEvent evt)
     {
-        print("OnTestEvent " + evt.testStr);
+        print("OnHeroEvent");
     }
 
-    private void OnTestEvent2(TestEvent evt)
+    private void OnHeroSpawn(HeroEvent evt)
     {
-        print("OnTestEvent " + evt.testStr);
+        print("OnHeroSpawn");
     }
 
-    private void OnTestCommand(TestCommand evt)
+    private void OnHeroDead(HeroEvent evt)
     {
-        print("OnTestCommand " + evt.testStr);
-        evt.Result = "OnTestCommand Result";
+        print("OnHeroDead");
+    }
+
+    private void OnHeroCommand(HeroCommand evt)
+    {
+        print("OnHeroCommand " + evt.type);
+        evt.Result = new GameObject(evt.type + "Result");
     }
 }

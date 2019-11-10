@@ -5,6 +5,16 @@ using UniRx;
 using uniFrame;
 
 
+public interface ICommand
+{
+    object Result { get; set; }
+}
+
+public interface ICommand<TResult>
+{
+    TResult Result { get; set; }
+}
+
 public static class UniEventExternal {
     public static EventAggregator EventAggregator
     {
@@ -23,23 +33,10 @@ public static class UniEventExternal {
         EventAggregator.Publish<TEvent>(evt);
     }
 
-    public static TResult Execute<TCommand, TResult>(this object o, TCommand evt)
+    public static TResult Execute<TCommand, TResult>(this object o, TCommand evt) where TCommand : ICommand<TResult>
     {
-        //EventAggregator.Publish<TCommand>(evt);
-        //var evtType = evt.GetType();
-        //var resultField = evtType.GetField("Result");
-        //var result = (TResult)resultField.GetValue(evt);
-        var result = (TResult)o.Execute<TCommand>(evt);
-        return result;
-    }
-
-    public static object Execute<TCommand>(this object o, TCommand evt)
-    {
-        EventAggregator.Publish<TCommand>(evt);
-        var evtType = evt.GetType();
-        var resultField = evtType.GetField("Result");
-        var result = resultField.GetValue(evt);
-        return result;
+        EventAggregator.Publish(evt);
+        return evt.Result;
     }
 
     public static IObservable<TEvent> OnEvent<TEvent>(this object o)
