@@ -1,5 +1,5 @@
 {
-  "name": "com.github.magicfire.unievent",
+  "name": "com.github.m969.unievent",
   "description": "unity reactive event system base on unirx.",
   "version": "1.0.0",
   "unity": "2018.1",
