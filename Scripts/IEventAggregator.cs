@@ -1,7 +1,7 @@
 using UniRx;
 using System; // Required for WP8 and Store APPS
 
-namespace uniFrame
+namespace UniEvent
 {
     public interface IEventAggregator
     {

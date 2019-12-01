@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
-using uniFrame.Attributes;
+using UniEvent.Attributes;
 using UniRx;
 
-namespace uniFrame
+namespace UniEvent
 {
     public interface IEventManager
     {

@@ -1,9 +1,9 @@
 using System;
 
 /// <summary>
-/// Custom Identify Atrributes of uniFrame
+/// Custom Identify Atrributes of UniEvent
 /// </summary>
-namespace uniFrame.Attributes
+namespace UniEvent.Attributes
 {
     /// <summary>
     /// Used by the injection container to determine if a property or field should be injected.
